@@ -5,20 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ProductDTO {
-    private Integer id;
+public class ResponseProductDTO {
+    private Long id;
     private String name;
     private Integer quantity;
 
-    public ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(
-                product.getId(),
+    public ResponseProductDTO convertToDTO(Product product) {
+        return new ResponseProductDTO(
+                product.getProductId(),
                 product.getName(),
                 product.getQuantity()
         );
