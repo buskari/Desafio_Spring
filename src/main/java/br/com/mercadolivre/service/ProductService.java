@@ -11,14 +11,14 @@ import br.com.mercadolivre.util.FileUtils;
 @Service
 public class ProductService {
 
-	private static final String JSON_PRODUCTS_PATH = "/json/products.json";
+	private static final String JSON_PRODUCTS_PATH = "./products";
 
 	public void create(List<Product> products) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
 		list.addAll(products);
 
-		fileUtils.writeObjectToFile(list, "." + JSON_PRODUCTS_PATH);
+		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}
 
 }
