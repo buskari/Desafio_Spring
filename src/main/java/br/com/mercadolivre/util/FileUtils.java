@@ -3,9 +3,8 @@ package br.com.mercadolivre.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,14 +16,16 @@ public class FileUtils<T> {
 	public List<T> readObjectsFromFile(String path) throws IOException {
 		TypeReference<List<T>> typeReference = new TypeReference<List<T>>(){};
 		InputStream inputStream = TypeReference.class.getResourceAsStream(path);
+		if(inputStream.available() == 1) {
 			List<T> objs = mapper.readValue(inputStream,typeReference);
 			return (objs);
+		}
+			return new ArrayList<>();
 	}
 	
-	public void writeObjectToFile(T object, String path) {
+	public void writeObjectToFile(List<T> list, String path) {
         try {
-        	ObjectMapper objectMapper = new ObjectMapper();
-        	objectMapper.writeValue(new File(path), object);
+        	mapper.writeValue(new File(path), list);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

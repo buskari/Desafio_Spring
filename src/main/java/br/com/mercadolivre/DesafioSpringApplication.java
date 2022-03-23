@@ -21,20 +21,4 @@ public class DesafioSpringApplication {
 		SpringApplication.run(DesafioSpringApplication.class, args);
 	}
 	
-	@Bean
-	CommandLineRunner runner() {
-		return args -> {
-			ObjectMapper mapper = new ObjectMapper();
-			TypeReference<List<Product>> typeReference = new TypeReference<List<Product>>(){};
-			InputStream inputStream = TypeReference.class.getResourceAsStream("/json/products.json");
-			try {
-				List<Product> products = mapper.readValue(inputStream,typeReference);
-				System.out.println(products);
-//				characterService.save(characters);
-			} catch (IOException e){
-				System.out.println("Unable to save products: " + e.getMessage());
-			}
-		};
-	}
-
 }
