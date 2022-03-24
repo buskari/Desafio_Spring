@@ -30,7 +30,10 @@ public class ProductController {
 	@PostMapping("/insert-products-request")
 	public ResponseEntity<List<ResponseProductDTO>> create(@RequestBody RequestListProductDTO products) throws IOException {
 		try {
-			List<Product> collect = products.getProducts().stream().map(RequestProductDTO::dtoToProduct)
+			List<Product> collect = products
+					.getProducts()
+					.stream()
+					.map(RequestProductDTO::dtoToProduct)
 					.collect(Collectors.toList());
 
 			service.create(collect);
@@ -42,7 +45,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/products")
-	public ResponseEntity<List<Product>> products(
+	public ResponseEntity<List<ResponseProductDTO>> products(
 			@RequestParam(required = false) String category,
 			@RequestParam(required = false) String name,
 			@RequestParam(required = false) String brand,
@@ -62,7 +65,8 @@ public class ProductController {
 				prestige,
 				order
 		);
+
 		responseProductDTOList = ResponseProductDTO.convertToDTO(result);
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(responseProductDTOList);
 	}
 }

@@ -18,42 +18,16 @@ import br.com.mercadolivre.util.FileUtils;
 @Service
 public class ProductService {
 
-	private static final String JSON_PRODUCTS_PATH = "./products.json";
-
 	@Autowired
 	private FileService<Product> fileService;
-
-	private ObjectMapper mapper = new ObjectMapper();
+	private static final String JSON_PRODUCTS_PATH = "./products.json";
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	public void create(List<Product> products) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
 		list.addAll(products);
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
-	}
-
-	public List<Product> findByCategory(String category) throws IOException {
-
-		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
-
-		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<>() {
-		});
-
-		return pojos.stream().filter(product -> product.getCategory().equals(category)).collect(Collectors.toList());
-
-	}
-
-	public List<Product> catEName(List<Product> products, String categoria, String name) throws IOException {
-		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(categoria))
-				.filter(a -> a.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
-	}
-
-	public List<Product> list() throws IOException {
-		FileUtils<Product> fileUtils = new FileUtils<>();
-		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
-		List<Product> pojos = mapper.convertValue(list, new TypeReference<List<Product>>() {
-		});
-		return pojos;
 	}
 
 	public List<Product> findProducts(
@@ -68,9 +42,7 @@ public class ProductService {
 	) throws IOException {
  
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
-
-		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<List<Product>>() {
-		});
+		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<>() {});
 		
 		if(category != null ) {
 			pojos = pojos
