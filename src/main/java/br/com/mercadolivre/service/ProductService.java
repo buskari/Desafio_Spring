@@ -43,15 +43,6 @@ public class ProductService {
 
 	}
 
-	public List<Product> catEName(List<Product> products, String categoria, String name) throws IOException { // filtra
-																												// por
-																												// categoria
-																												// e
-																												// nome
-		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(categoria))
-				.filter(a -> a.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
-	}
-
 	public List<Product> list() throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
@@ -60,4 +51,23 @@ public class ProductService {
 		return pojos;
 	}
 
+	public List<Product> listProductsCatEName(List<Product> products, String categoria, String name) { // filtra por categoria e nome
+		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(categoria))
+				.filter(a -> a.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
+	}
+
+	public List<Product> listProductsCatAndBrand(List<Product> products, String category, String brand) { //filtra por categoria e brand
+		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(category))
+				.filter(a -> a.getBrand().equalsIgnoreCase(brand)).collect(Collectors.toList());
+	}
+
+	public List<Product> listProductsFreeShippingAndPrestige(List<Product> products, String freeShipping, String prestige) { //filtra por freeShipping e Prestige
+		return products.stream().filter(a -> a.getFreeShipping().toString().equals(freeShipping))
+				.filter(a -> a.getPrestige().equals(prestige)).collect(Collectors.toList());
+	}
+
+	public List<Product> listProductsCatAndFreeShipping(List<Product> products, String category, String freeShipping) { //filtra por categoria e freeShipping
+		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(category))
+				.filter(a -> a.getFreeShipping().toString().equals(freeShipping)).collect(Collectors.toList());
+	}
 }
