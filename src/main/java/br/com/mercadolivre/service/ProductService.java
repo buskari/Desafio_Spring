@@ -1,6 +1,7 @@
 package br.com.mercadolivre.service;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,18 +35,14 @@ public class ProductService {
 
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
 
-		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<List<Product>>() {
+		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<>() {
 		});
 
 		return pojos.stream().filter(product -> product.getCategory().equals(category)).collect(Collectors.toList());
 
 	}
 
-	public List<Product> catEName(List<Product> products, String categoria, String name) throws IOException { // filtra
-																												// por
-																												// categoria
-																												// e
-																												// nome
+	public List<Product> catEName(List<Product> products, String categoria, String name) throws IOException {
 		return products.stream().filter(a -> a.getCategory().equalsIgnoreCase(categoria))
 				.filter(a -> a.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
 	}
@@ -73,23 +70,34 @@ public class ProductService {
 		if(order != null) {
 			switch (order) {
 			case 0:
+				pojos = pojos
+						.stream()
+						.sorted(Comparator.comparing(Product::getName))
+						.collect(Collectors.toList());
 				break;
 			case 1:
+				pojos = pojos
+						.stream()
+						.sorted((p1, p2) -> p2.getName().compareTo(p1.getName()))
+						.collect(Collectors.toList());
 				break;
 			case 2:
-				pojos = pojos.stream().sorted((v1, v2) -> v2.getPrice().compareTo(v1.getPrice()))
+				pojos = pojos
+						.stream()
+						.sorted(Comparator.comparing(Product::getPrice))
 						.collect(Collectors.toList());
 				break;
 			case 3:
-				pojos = pojos.stream().sorted((v1, v2) -> v1.getPrice().compareTo(v2.getPrice()))
-				.collect(Collectors.toList());
+				pojos = pojos
+						.stream()
+						.sorted((v1, v2) -> v2.getPrice().compareTo(v1.getPrice()))
+						.collect(Collectors.toList());
 				break;
 
 			default:
-				break;
+				throw new RuntimeException("Wrong param value");
 			}
 		}
-		
 
 		return pojos;
 	}
