@@ -22,7 +22,7 @@ public class RequestProductDTO {
 	private Boolean freeShipping;
 	private String prestige;
 	
-	public static Product productToDTO(RequestProductDTO dto) {
+	public static Product dtoToProduct(RequestProductDTO dto) {
 		return Product
 				.builder()
 				.productId(dto.getProductId())
@@ -33,6 +33,20 @@ public class RequestProductDTO {
 				.quantity(dto.getQuantity())
 				.freeShipping(dto.getFreeShipping())
 				.prestige(dto.getPrestige())
+				.build();
+	}
+
+	public static RequestProductDTO productToDTO(Product product) {
+		return RequestProductDTO
+				.builder()
+				.productId(product.getProductId())
+				.name(product.getName())
+				.category(product.getCategory())
+				.brand(product.getBrand())
+				.price(product.getPrice())
+				.quantity(product.getQuantity())
+				.freeShipping(product.getFreeShipping())
+				.prestige(product.getPrestige())
 				.build();
 	}
 	

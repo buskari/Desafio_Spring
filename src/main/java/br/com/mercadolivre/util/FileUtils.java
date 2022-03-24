@@ -15,10 +15,12 @@ public class FileUtils<T> {
 	public List<T> readObjectsFromFile(String path) throws IOException {
 		TypeReference<List<T>> typeReference = new TypeReference<List<T>>() {
 		};
+
 		File file = new File(path);
 		if (file.exists()) {
 			List<T> objs = mapper.readValue(new File(path), typeReference);
-			return (objs);
+			return mapper.convertValue(objs, new TypeReference<List<T>>() {
+			});
 		}
 		file.createNewFile();
 		return new ArrayList<>();
