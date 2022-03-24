@@ -1,6 +1,7 @@
 package br.com.mercadolivre.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +38,7 @@ public class ProductService {
 		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<List<Product>>() {
 		});
 
-		return pojos.stream().filter(product -> product.getCategory().equals(category))
-			.collect(Collectors.toList());
+		return pojos.stream().filter(product -> product.getCategory().equals(category)).collect(Collectors.toList());
 
 	}
 
@@ -56,6 +56,38 @@ public class ProductService {
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
 		List<Product> pojos = mapper.convertValue(list, new TypeReference<List<Product>>() {
 		});
+		return pojos;
+	}
+
+	public List<Product> findProducts(String category, Integer order) throws IOException {
+ 
+		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
+
+		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<List<Product>>() {
+		});
+		
+		if(category != null ) {
+			pojos = pojos.stream().filter(product -> product.getCategory().equals(category))
+			.collect(Collectors.toList());
+		}
+		
+		if(order != null) {
+			switch (order) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+
 		return pojos;
 	}
 
