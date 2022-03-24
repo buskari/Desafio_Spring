@@ -1,6 +1,7 @@
 package br.com.mercadolivre.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +56,16 @@ public class ProductService {
 		return pojos;
 	}
 
-	public List<Product> findProducts(String category, Integer order) throws IOException {
+	public List<Product> findProducts(
+			String category,
+			String name,
+			String brand,
+			BigDecimal price,
+			Integer quantity,
+			String freeShipping,
+			String prestige,
+			Integer order
+	) throws IOException {
  
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
 
@@ -63,10 +73,59 @@ public class ProductService {
 		});
 		
 		if(category != null ) {
-			pojos = pojos.stream().filter(product -> product.getCategory().equals(category))
-			.collect(Collectors.toList());
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getCategory().equalsIgnoreCase(category))
+					.collect(Collectors.toList());
 		}
-		
+
+		if(name != null ) {
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getName().equalsIgnoreCase(name))
+					.collect(Collectors.toList());
+		}
+
+		if(brand != null ) {
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getBrand().equalsIgnoreCase(brand))
+					.collect(Collectors.toList());
+		}
+
+		if(price != null ) {
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getPrice().equals(price))
+					.collect(Collectors.toList());
+		}
+
+		if(quantity != null ) {
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getQuantity().equals(quantity))
+					.collect(Collectors.toList());
+		}
+
+		if(freeShipping != null ) {
+			boolean booleanFreeShipping = false;
+			if (freeShipping.equalsIgnoreCase("sim")) {
+				booleanFreeShipping = true;
+			}
+			boolean finalBooleanFreeShipping = booleanFreeShipping;
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getFreeShipping().equals(finalBooleanFreeShipping))
+					.collect(Collectors.toList());
+		}
+
+		if(prestige != null ) {
+			pojos = pojos
+					.stream()
+					.filter(product -> product.getPrestige().equals(prestige))
+					.collect(Collectors.toList());
+		}
+
 		if(order != null) {
 			switch (order) {
 			case 0:

@@ -1,6 +1,7 @@
 package br.com.mercadolivre.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,26 +39,30 @@ public class ProductController {
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> products(
 			@RequestParam(required = false) String category,
+			@RequestParam(required = false) String name,
+			@RequestParam(required = false) String brand,
+			@RequestParam(required = false) BigDecimal price,
+			@RequestParam(required = false) Integer quantity,
+			@RequestParam(required = false) String freeShipping,
+			@RequestParam(required = false) String prestige,
 			@RequestParam(required = false) Integer order
 	) throws IOException {
-		List<Product> result = service.findProducts(category, order);
+		List<Product> result = service.findProducts(
+				category,
+				name,
+				brand,
+				price,
+				quantity,
+				freeShipping,
+				prestige,
+				order
+		);
 		responseProductDTOList = ResponseProductDTO.convertToDTO(result);
 		return ResponseEntity.ok(result);
 	}
-
-	@GetMapping("/products/category/name")
-	public ResponseEntity<List<Product>> productsCatEName(
-			@RequestParam(required = false, name = "c") String category,
-			@RequestParam(required = false, name = "n") String name
-	) throws IOException {
-		List<Product> result = service.catEName(service.list(), category, name);
-		return ResponseEntity.ok(result);
-	}
-
 }
