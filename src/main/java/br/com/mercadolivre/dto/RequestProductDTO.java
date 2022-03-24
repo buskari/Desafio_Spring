@@ -2,6 +2,12 @@ package br.com.mercadolivre.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.mercadolivre.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,19 +16,20 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@Component
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestProductDTO {
 	private Long productId;
 	private String name;
+	private Integer quantity;
 	private String category;
 	private String brand;
 	private BigDecimal price;
-	private Integer quantity;
 	private Boolean freeShipping;
 	private String prestige;
-	
-	public static Product dtoToProduct(RequestProductDTO dto) {
+
+	public static Product dtoToProduct(@Valid RequestProductDTO dto) {
 		return Product
 				.builder()
 				.productId(dto.getProductId())
@@ -36,7 +43,7 @@ public class RequestProductDTO {
 				.build();
 	}
 
-	public static RequestProductDTO productToDTO(Product product) {
+	public static RequestProductDTO productToDTO(@Valid Product product) {
 		return RequestProductDTO
 				.builder()
 				.productId(product.getProductId())
@@ -49,5 +56,4 @@ public class RequestProductDTO {
 				.prestige(product.getPrestige())
 				.build();
 	}
-	
 }
