@@ -37,16 +37,6 @@ public class ProductController {
 
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> products(@RequestParam(required = false) String category, @RequestParam(required = false) Integer order) throws IOException {
-
-//		if(order != null) {
-//			
-//		}
-//		
-//		if (category != null) {
-//			List<Product> products = service.findByCategory(category);
-//			return ResponseEntity.ok(products);
-//		}
-
 		List<Product> result = service.findProducts(category, order);
 		return ResponseEntity.ok(result);
 	}

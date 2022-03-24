@@ -1,7 +1,6 @@
 package br.com.mercadolivre.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,8 +77,12 @@ public class ProductService {
 			case 1:
 				break;
 			case 2:
+				pojos = pojos.stream().sorted((v1, v2) -> v2.getPrice().compareTo(v1.getPrice()))
+						.collect(Collectors.toList());
 				break;
 			case 3:
+				pojos = pojos.stream().sorted((v1, v2) -> v1.getPrice().compareTo(v2.getPrice()))
+				.collect(Collectors.toList());
 				break;
 
 			default:
