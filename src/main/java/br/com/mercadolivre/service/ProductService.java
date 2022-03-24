@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.mercadolivre.dto.RequestProductDTO;
 import br.com.mercadolivre.model.Product;
 import br.com.mercadolivre.util.FileUtils;
 
@@ -31,7 +30,7 @@ public class ProductService {
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}
 
-	public List<RequestProductDTO> findByCategory(String category) throws IOException {
+	public List<Product> findByCategory(String category) throws IOException {
 
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
 
@@ -39,7 +38,7 @@ public class ProductService {
 		});
 
 		return pojos.stream().filter(product -> product.getCategory().equals(category))
-				.map(RequestProductDTO::productToDTO).collect(Collectors.toList());
+			.collect(Collectors.toList());
 
 	}
 

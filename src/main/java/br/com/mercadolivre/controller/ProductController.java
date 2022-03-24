@@ -27,31 +27,31 @@ public class ProductController {
 	@PostMapping("/insert-products-request")
 	public ResponseEntity<Object> create(@RequestBody RequestListProductDTO products) throws IOException {
 
-		List<Product> collect = products.getProducts().stream()
-				.map(RequestProductDTO::dtoToProduct)
+		List<Product> collect = products.getProducts().stream().map(RequestProductDTO::dtoToProduct)
 				.collect(Collectors.toList());
 		service.create(collect);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
 
 	}
-	
+
 	@GetMapping("/products")
-	public ResponseEntity<List<Product>> products() throws IOException {
+	public ResponseEntity<List<Product>> products(@RequestParam(required = false) String category) throws IOException {
+
+		if (category != null) {
+			List<Product> products = service.findByCategory(category);
+			return ResponseEntity.ok(products);
+		}
+
 		List<Product> result = service.list();
 		return ResponseEntity.ok(result);
 	}
-	
+
 	@GetMapping("/products/category/name")
 	public ResponseEntity<List<Product>> productsCatEName(@RequestParam(required = false, name = "c") String category,
-														  @RequestParam(required = false, name = "n")String name) throws IOException { //lista por categoria e nome
+			@RequestParam(required = false, name = "n") String name) throws IOException { // lista por categoria e nome
 		List<Product> result = service.catEName(service.list(), category, name);
 		return ResponseEntity.ok(result);
 	}
-	
-//	@GetMapping("/products")
-//	public List<RequestProductDTO> findByCategory(@RequestParam String category) throws IOException {
-//		 List<RequestProductDTO> products = service.findByCategory(category);
-//		 return products;
-//	}
+
 }
