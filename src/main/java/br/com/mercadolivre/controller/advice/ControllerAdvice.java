@@ -36,6 +36,14 @@ public class ControllerAdvice {
 		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(ProductAlreadyExistException.class)
+	public ResponseEntity<ErrorMessage> ProductAlreadyExistExceptionHandler(Exception e) {
+		
+		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT.value(), e.getLocalizedMessage());
+		
+		return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+	}
+	
 	@ExceptionHandler(OrderException.class)
 	public ResponseEntity<ErrorMessage> OrderException(Exception e) {
 		

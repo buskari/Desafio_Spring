@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 public class ProductPurchaseRequest {
 
-    private List<ProductPurchasedRequestDTO> produtcsPurchesed;
+    private List<ProductPurchasedRequestDTO> purchasedProducts;
 }
 

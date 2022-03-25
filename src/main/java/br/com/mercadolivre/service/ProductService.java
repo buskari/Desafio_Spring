@@ -3,24 +3,25 @@ package br.com.mercadolivre.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
-import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import br.com.mercadolivre.controller.advice.OrderException;
-import br.com.mercadolivre.dto.ProductPurchasedRequestDTO;
-import br.com.mercadolivre.dto.ProductPurchasedResponseDTO;
-import br.com.mercadolivre.model.ProductPurchaseRequest;
-import br.com.mercadolivre.model.ProductPurchaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.mercadolivre.controller.advice.OrderException;
+import br.com.mercadolivre.controller.advice.ProductAlreadyExistException;
+import br.com.mercadolivre.dto.ProductPurchasedRequestDTO;
+import br.com.mercadolivre.dto.ProductPurchasedResponseDTO;
 import br.com.mercadolivre.model.Product;
+import br.com.mercadolivre.model.ProductPurchaseRequest;
+import br.com.mercadolivre.model.ProductPurchaseResponse;
 import br.com.mercadolivre.util.FileUtils;
 
 @Service
@@ -34,6 +35,18 @@ public class ProductService {
 	public void create(List<Product> products, List<Validator> validadores) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
+		List<Product> pojo = mapper.convertValue(list, new TypeReference<List<Product>>() {
+			});
+
+		for (Product newProduct : products) {
+			for (Product product : pojo) {
+				if (product.getProductId().equals(newProduct.getProductId())) {
+					throw new ProductAlreadyExistException(
+							"Produto com id " + newProduct.getProductId() + " já cadastrado!");
+				}
+			}
+		}
+
 		validadores.forEach(v -> v.valida());
 		list.addAll(products);
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
@@ -125,7 +138,7 @@ public class ProductService {
 		ProductPurchasedResponseDTO productPurchesedDTO = new ProductPurchasedResponseDTO();
 		ProductPurchaseResponse productPurchaseResponse = new ProductPurchaseResponse();
 
-		for (ProductPurchasedRequestDTO productCompra : products.getProdutcsPurchesed()) {
+		for (ProductPurchasedRequestDTO productCompra : products.getPurchasedProducts()) {
 			Optional<Product> opt = findById(productCompra.getProductId());
 			if (opt.isEmpty()) {
 				throw new OrderException("Produto inexistente");

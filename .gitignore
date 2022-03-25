@@ -291,6 +291,6 @@ Temporary Items
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,eclipse,macos,java,intellij+iml
 /products.json
+/customers.json
 # End of https://www.toptal.com/developers/gitignore/api/intellij,eclipse,macos,java,intellij+iml
-/products.json
 /.idea/
