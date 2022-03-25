@@ -55,8 +55,9 @@ A consulta dos pacientes cadastrados é feito via consulta de arquivo que retorn
 
 Para efetuar a consulta dos produtos utilizamos o metodo HTTP **GET** através do seguinte link:
 
-**Endpoint: **
-_/api/v1/products_
+**Endpoint**
+
+http://localhost:8080/api/v1/products
 
 **Modelo de resposta**
 
@@ -85,9 +86,9 @@ Para ordenar os produtos, utilizamos o parametro "order" com o valor de 0 a 3 de
 *2: retorno a lista em ordem crescente de preço*
 *3: retorna a lista em ordem descrescente de preço*
 
-**Endpoint: **
+**Endpoint**
 
-_/api/v1/produtos?order={parametro}_
+http://localhost:8080/api/v1/produtos?order={parametro}
 
 
 
@@ -103,13 +104,15 @@ Para filtrar os produtos, utilizamos os seguintes parâmetros **opcionais** e po
 *freeShipping*
 *prestige*
 
-**Endpoint: **
+**Endpoint**
 
 Exemplo de aplicação de 1 filtro:
-_/api/v1/produtos?name={parametro}_
 
-Exemplo de combinação de 2 filtros
-_/api/v1/produtos?name={nameParam}&category={categoryParam}_
+http://localhost:8080/api/v1/produtos?name={parametro}
+
+Exemplo de combinação de 2 filtros:
+
+http://localhost:8080/api/v1/produtos?name={nameParam}&category={categoryParam}
 
 
 
@@ -132,7 +135,7 @@ Para solicitar o pedido de envio, devemos utilizar o método **POST** com o segu
 
 **Endpoint**
 
-_/api/v1/purchase-request_
+http://localhost:8080/api/v1/purchase-request
 
 **Modelo de resposta**
 
@@ -165,9 +168,11 @@ _/api/v1/purchase-request_
 **Cadastrar Cliente:**
 
 O cadastro do cliente é recebido via JSON, convertido para objeto JAVA e então gravado em um arquivo customer.json no diretório "./customer.json".
-A requisição para cadastro é feita através do metodo **POST** pelo endpoint abaixo:
+A requisição para cadastro é feita através do metodo **POST**
 
-_/api/v1/customer_
+**Endpoint**
+
+http://localhost:8080/api/v1/customer
 
 **Modelo de payload**
 
@@ -190,9 +195,11 @@ _/api/v1/customer_
 **Consultar a Lista de Clientes:**
 
 A consulta dos clientes é feita via JSON
-Para efetuar a consulta o metodo **GET** através do seguinte endpoint:
+Para efetuar a consulta o metodo **GET**
 
-_/api/v1/products_
+**Endpoint**
+
+http://localhost:8080/api/v1/products
 
 **Modelo de resposta**
 
@@ -215,5 +222,5 @@ Para filtrar os clientes, utilizamos o parâmetro **state** sendo este **opciona
 
 **Endpoint**
 
-_/api/v1/customers?state={parametro}_
+http://localhost:8080/api/v1/customers?state={parametro}
 
