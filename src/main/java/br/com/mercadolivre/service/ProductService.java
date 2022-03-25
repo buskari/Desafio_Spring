@@ -31,9 +31,10 @@ public class ProductService {
 	private static final String JSON_PRODUCTS_PATH = "./products.json";
 	private final ObjectMapper mapper = new ObjectMapper();
 
-	public void create(List<Product> products) throws IOException {
+	public void create(List<Product> products, List<Validator> validadores) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
+		validadores.forEach(v -> v.valida());
 		list.addAll(products);
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}
