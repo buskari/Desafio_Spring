@@ -290,3 +290,4 @@ Temporary Items
 .apdisk
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,eclipse,macos,java,intellij+iml
+/products.json
