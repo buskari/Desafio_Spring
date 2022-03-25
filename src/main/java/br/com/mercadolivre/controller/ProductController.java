@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.mercadolivre.dto.ResponseProductDTO;
+import br.com.mercadolivre.model.ProductPurchaseRequest;
+import br.com.mercadolivre.model.ProductPurchaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,5 +70,10 @@ public class ProductController {
 
 		responseProductDTOList = ResponseProductDTO.convertToDTO(result);
 		return ResponseEntity.ok(responseProductDTOList);
+	}
+
+	@PostMapping("/purchase-request")
+	public ResponseEntity<ProductPurchaseResponse> purchaseRequest(@RequestBody ProductPurchaseRequest products) throws Exception {
+		return ResponseEntity.ok(service.compras(products));
 	}
 }
