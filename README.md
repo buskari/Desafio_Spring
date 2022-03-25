@@ -19,8 +19,8 @@ API elaborada para monitorar e cadastrar produtos e clientes.
 
 O cadastro do produto é recebido via JSON, convertido para objeto JAVA e então gravado em um arquivo products.json no diretório "./products.json".
 
-**Endpoint**
-/api/v1/insert-products-request
+**Endpoint: ** 
+_/api/v1/insert-products-request_
 
 **Modelo de payload**
 
@@ -55,8 +55,8 @@ A consulta dos pacientes cadastrados é feito via consulta de arquivo que retorn
 
 Para efetuar a consulta dos produtos utilizamos o metodo HTTP **GET** através do seguinte link:
 
-**Endpoint**
-/api/v1/products
+**Endpoint: **
+_/api/v1/products_
 
 **Modelo de resposta**
 
@@ -85,9 +85,9 @@ Para ordenar os produtos, utilizamos o parametro "order" com o valor de 0 a 3 de
 *2: retorno a lista em ordem crescente de preço*
 *3: retorna a lista em ordem descrescente de preço*
 
-**Endpoint**
+**Endpoint: **
 
-/api/v1/produtos?order={parametro}
+_/api/v1/produtos?order={parametro}_
 
 
 
@@ -103,7 +103,7 @@ Para filtrar os produtos, utilizamos os seguintes parâmetros **opcionais** e po
 *freeShipping*
 *prestige*
 
-**Endpoint**
+**Endpoint: **
 
 Exemplo de aplicação de 1 filtro:
 _/api/v1/produtos?name={parametro}_
