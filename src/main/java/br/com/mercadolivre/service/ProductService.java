@@ -2,12 +2,14 @@ package br.com.mercadolivre.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.InvalidParameterException;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.com.mercadolivre.controller.advice.OrderException;
 import br.com.mercadolivre.dto.ProductPurchasedRequestDTO;
 import br.com.mercadolivre.dto.ProductPurchasedResponseDTO;
 import br.com.mercadolivre.model.ProductPurchaseRequest;
@@ -131,7 +133,7 @@ public class ProductService {
 				break;
 
 			default:
-				throw new RuntimeException("Wrong param value");
+				throw new InvalidParameterException("Valores válidos para order: 0 - Alfabético crescente, 1 - Alfabético decrescente, 2 - Maior a menor preço ou 3 - Menor a maior preço");
 			}
 		}
 		return pojos;
@@ -157,12 +159,12 @@ public class ProductService {
 		for (ProductPurchasedRequestDTO productCompra : products.getProdutcsPurchesed()) {
 			Optional<Product> opt = findById(productCompra.getProductId());
 			if (opt.isEmpty()){
-				throw new Exception("Produto inexistente");
+				throw new OrderException("Produto inexistente");
 			}
 			for (Product productEstoque : estoque) {
 				if (productCompra.getProductId().equals(productEstoque.getProductId())) {
 					if (productCompra.getQuantity() > productEstoque.getQuantity()) {
-						throw new Exception("Estoque insuficiente");
+						throw new OrderException("Estoque insuficiente");
 					}
 					saida.add(productEstoque);
 					total = total.add(productEstoque.getPrice().multiply(BigDecimal.valueOf(productCompra.getQuantity())));

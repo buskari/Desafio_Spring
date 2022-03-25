@@ -31,7 +31,6 @@ public class ProductController {
 
 	@PostMapping("/insert-products-request")
 	public ResponseEntity<List<ResponseProductDTO>> create(@RequestBody RequestListProductDTO products) throws IOException {
-		try {
 			List<Product> collect = products
 					.getProducts()
 					.stream()
@@ -41,9 +40,6 @@ public class ProductController {
 			service.create(collect);
 			responseProductDTOList = ResponseProductDTO.convertToDTO(collect);
 			return new ResponseEntity<>(responseProductDTOList, HttpStatus.CREATED);
-		} catch (Exception e) {
-			throw e;
-		}
 	}
 
 	@GetMapping("/products")
