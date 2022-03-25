@@ -12,6 +12,11 @@ public class ProductValidatePrice implements Validator{
     public ProductValidatePrice(List<Product> products) {
         this.products = products;
     }
+
+    /**
+     * Valida se o preço do produto é menor ou igual a zero
+     * @throws ValidatorException exceção no caso do preço do produto ser menor ou igual a zero
+     */
     @Override
     public void valida() throws ValidatorException {
         for (Product product : products) {

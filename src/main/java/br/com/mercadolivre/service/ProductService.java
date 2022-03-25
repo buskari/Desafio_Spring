@@ -32,6 +32,12 @@ public class ProductService {
 	private static final String JSON_PRODUCTS_PATH = "./products.json";
 	private final ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * Cria uma lista de produtos e adiciona a lista existente
+	 * @param products lista de produtos para inserção
+	 * @param validadores lista de validadores
+	 * @throws IOException exceção no caso de não conseguir ler a lista json
+	 */
 	public void create(List<Product> products, List<Validator> validadores) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
@@ -52,6 +58,19 @@ public class ProductService {
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}
 
+	/**
+	 * Busca produtos conforme o filtro selecionado ou todos os produtos caso não haja filtro
+	 * @param category String - categoria do produto
+	 * @param name String - nome do produto
+	 * @param brand String - marca do produto
+	 * @param price BigDecimal - preço do produto
+	 * @param quantity Integer - quantidade do produto
+	 * @param freeShipping String - frete grátis referente ao produto
+	 * @param prestige String - avaliação do produto
+	 * @param order Integer - Parametro para ordenação, valores válidos: 0 - Alfabético crescente, 1 - Alfabético decrescente, 2 - Maior a menor preço ou 3 - Menor a maior preço
+	 * @return Lista de produtos conforme o filtro selecionado
+	 * @throws IOException exceção no caso de não conseguir ler a lista json
+	 */
 	public List<Product> findProducts(String category, String name, String brand, BigDecimal price, Integer quantity,
 			String freeShipping, String prestige, Integer order) throws IOException {
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
@@ -123,15 +142,25 @@ public class ProductService {
 
 	}
 
+	/**
+	 * Busca todos os produtos
+	 * @return lista de produtos recuperada do json
+	 * @throws IOException exceção no caso de não conseguir ler a lista json
+	 */
 	public List<Product> list() throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
-
 		return mapper.convertValue(list, new TypeReference<List<Product>>() {
 		});
 	}
 
-	public ProductPurchaseResponse compras(ProductPurchaseRequest products) throws Exception {
+	/**
+	 * Pedido de compra
+	 * @param products objeto do tipo ProductPurchaseRequest com uma lista de produtos
+	 * @return lista de produtos da venda
+	 * @throws Exception exceção no caso de não conseguir ler a lista json
+	 */
+	public ProductPurchaseResponse newPurchase(ProductPurchaseRequest products) throws Exception {
 		List<Product> saida = new ArrayList<>();
 		BigDecimal total = BigDecimal.valueOf(0);
 		List<Product> estoque = list();
@@ -160,6 +189,12 @@ public class ProductService {
 		return productPurchaseResponse;
 	}
 
+	/**
+	 * Busca um produto por id
+	 * @param id Long - id do produto
+	 * @return um produto caso exista na lista
+	 * @throws IOException exceção no caso de não conseguir ler a lista json
+	 */
 	public Optional<Product> findById(Long id) throws IOException {
 		return list().stream().filter(a -> a.getProductId().equals(id)).findFirst();
 	}

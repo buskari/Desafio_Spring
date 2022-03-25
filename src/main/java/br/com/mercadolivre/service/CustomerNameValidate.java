@@ -9,6 +9,10 @@ public class CustomerNameValidate implements Validator{
     private Customer customer;
     private final Integer TRES = 3;
 
+    /**
+     * Valida se o nome do cliente é menor que três
+     * @throws ValidatorException exceção no caso do nome do cliente ser menor que três
+     */
     @Override
     public void valida() throws ValidatorException {
         if(customer.getName().length() < TRES) {

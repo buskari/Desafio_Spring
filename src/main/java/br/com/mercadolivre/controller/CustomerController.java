@@ -20,20 +20,25 @@ public class CustomerController {
     @Autowired
     public CustomerService service;
 
+    /**
+     * Lista todos os clientes
+     * @return lista de clientes
+     * @throws IOException exceção no caso de não conseguir ler a lista json
+     */
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getCustomers () throws IOException {
-
         List<Customer> customers = service.list();
         return ResponseEntity.ok(customers);
-
     }
 
+    /**
+     * Cria um novo cliente
+     * @param customer objeto cliente para inserção
+     * @return um cliente cadastrado
+     * @throws IOException exceção no caso de não conseguir ler a lista json
+     */
     @PostMapping("/customers")
     public ResponseEntity<Customer> createCustomer(@RequestBody @NotNull Customer customer) throws IOException {
-//        List<Validator> validators = Arrays.asList(
-//                new CustomerNameValidate(customer),
-//                new CustomerStateValidate(customer)
-//        );
         service.create(customer, new CustomerNameValidate(customer));
         return ResponseEntity.ok(customer);
     }
