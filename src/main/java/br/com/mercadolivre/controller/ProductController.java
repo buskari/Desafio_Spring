@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.mercadolivre.model.ProductPurchaseRequest;
+import br.com.mercadolivre.model.ProductPurchaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,11 +49,9 @@ public class ProductController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping("/products/category/name")
-	public ResponseEntity<List<Product>> productsCatEName(@RequestParam(required = false, name = "c") String category,
-			@RequestParam(required = false, name = "n") String name) throws IOException { // lista por categoria e nome
-		List<Product> result = service.catEName(service.list(), category, name);
-		return ResponseEntity.ok(result);
+	@PostMapping("/purchase-request")
+	public ResponseEntity<ProductPurchaseResponse> purchaseRequest(@RequestBody ProductPurchaseRequest products) throws Exception {
+		return ResponseEntity.ok(service.compras(products));
 	}
 
 }
