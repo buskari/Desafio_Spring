@@ -52,7 +52,7 @@ http://localhost:8080/api/v1/insert-products-request
 
 **Consultar estoque de produtos:**
 
-A consulta dos pacientes cadastrados é feito via consulta de arquivo que retorna todos os produtos cadastrados.
+A consulta dos produtos cadastrados é feito via consulta de arquivo que retorna todos os produtos cadastrados.
 
 Para efetuar a consulta dos produtos utilizamos o metodo HTTP **GET** através do seguinte link:
 
