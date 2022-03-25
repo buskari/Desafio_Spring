@@ -1,0 +1,22 @@
+[
+  {
+    "customerId":1,
+    "name":"Um nome ai"
+  },
+  {
+    "customerId":12,
+    "name":"Um nome ai2"
+  },
+  {
+  "customerId":21,
+  "name":"Um nome 2ai"
+},
+  {
+  "customerId":122,
+  "name":"Um nome ai"
+},
+  {
+  "customerId":221,
+  "name":"Um nome ai"
+}
+]
