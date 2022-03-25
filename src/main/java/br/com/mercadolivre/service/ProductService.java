@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.mercadolivre.controller.advice.OrderException;
-import br.com.mercadolivre.controller.advice.ProductAlreadyExistException;
+import br.com.mercadolivre.controller.advice.EntityAlreadyExistsException;
 import br.com.mercadolivre.dto.ProductPurchasedRequestDTO;
 import br.com.mercadolivre.dto.ProductPurchasedResponseDTO;
 import br.com.mercadolivre.model.Product;
@@ -35,19 +35,19 @@ public class ProductService {
 	public void create(List<Product> products, List<Validator> validadores) throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
-		List<Product> pojo = mapper.convertValue(list, new TypeReference<List<Product>>() {
-			});
+		List<Product> pojo = mapper.convertValue(list, new TypeReference<>() {
+		});
 
 		for (Product newProduct : products) {
 			for (Product product : pojo) {
 				if (product.getProductId().equals(newProduct.getProductId())) {
-					throw new ProductAlreadyExistException(
+					throw new EntityAlreadyExistsException(
 							"Produto com id " + newProduct.getProductId() + " já cadastrado!");
 				}
 			}
 		}
 
-		validadores.forEach(v -> v.valida());
+		validadores.forEach(Validator::valida);
 		list.addAll(products);
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}

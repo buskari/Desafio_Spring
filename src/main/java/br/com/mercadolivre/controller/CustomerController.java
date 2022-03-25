@@ -1,18 +1,19 @@
 package br.com.mercadolivre.controller;
 
+import br.com.mercadolivre.dto.RequestListCustomerDTO;
 import br.com.mercadolivre.model.Customer;
-import br.com.mercadolivre.service.CustomerNameValidate;
-import br.com.mercadolivre.service.CustomerService;
+import br.com.mercadolivre.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.converter.xml.Jaxb2CollectionHttpMessageConverter;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CustomerController {
@@ -21,20 +22,19 @@ public class CustomerController {
     public CustomerService service;
 
     @GetMapping("/customers")
-    public ResponseEntity<List<Customer>> getCustomers () throws IOException {
+    public ResponseEntity<List<Customer>> getCustomers (
+            @RequestParam(required = false) String state
+    ) throws IOException {
 
-        List<Customer> customers = service.list();
+        List<Customer> customers = service.findCustomer(state);
         return ResponseEntity.ok(customers);
-
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Customer> createCustomer(@RequestBody @NotNull Customer customer) throws IOException {
-//        List<Validator> validators = Arrays.asList(
-//                new CustomerNameValidate(customer),
-//                new CustomerStateValidate(customer)
-//        );
-        service.create(customer, new CustomerNameValidate(customer));
-        return ResponseEntity.ok(customer);
+    public ResponseEntity<List<Customer>> createCustomer(
+            @RequestBody @NotNull RequestListCustomerDTO customers
+    ) throws IOException {
+        List<Customer> customersList = service.create(customers.getCustomers());
+        return new ResponseEntity<>(customersList, HttpStatus.CREATED);
     }
 }

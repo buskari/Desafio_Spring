@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "d8645524-aa21-49d3-b539-309b83365f71",
+		"name": "Desafio Spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CADASTRO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [\n        {\n            \"productId\": 16,\n            \"name\": \"Serra de Bancada\",\n            \"category\": \"Ferramentas\",\n            \"brand\": \"FORTGPRO\",\n            \"price\": 10,\n            \"quantity\": 5,\n            \"freeShipping\": true,\n            \"prestige\": \"****\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/insert-products-request",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"insert-products-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PRODUCTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "Roupas",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "Furadeira",
+							"disabled": true
+						},
+						{
+							"key": "brand",
+							"value": "lacoste",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "-2000",
+							"disabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "freeShipping",
+							"value": "sim",
+							"disabled": true
+						},
+						{
+							"key": "prestige",
+							"value": "***",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE CUSTOMER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customers\": [\n        {\n            \"customerId\": 20,\n            \"name\": \"Vinicios\",\n            \"state\": \"MG\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SOLICITAÇÃO DE COMPRA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"purchasedProducts\": [\n        {\n            \"productId\": 7,\n            \"name\": \"Redmi Note 9\",\n            \"brand\": \"Xiaomi\",\n            \"quantity\": 1\n        },\n        {\n            \"productId\":6,\n            \"name\": \"Camiseta\",\n            \"brand\": \"Topper\",\n            \"quantity\": 1\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/purchase-request",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"purchase-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CUSTOMERS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

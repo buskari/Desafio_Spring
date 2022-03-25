@@ -16,7 +16,7 @@ public class ControllerAdvice {
 	public ResponseEntity<ErrorMessage> genericErrorHandler(Exception e) {
 		
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getLocalizedMessage());
-		
+		e.printStackTrace();
 		return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -36,7 +36,7 @@ public class ControllerAdvice {
 		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(ProductAlreadyExistException.class)
+	@ExceptionHandler(EntityAlreadyExistsException.class)
 	public ResponseEntity<ErrorMessage> ProductAlreadyExistExceptionHandler(Exception e) {
 		
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT.value(), e.getLocalizedMessage());
