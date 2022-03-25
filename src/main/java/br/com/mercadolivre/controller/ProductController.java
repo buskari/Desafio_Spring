@@ -32,6 +32,7 @@ public class ProductController {
 	public ProductService service;
 	private List<ResponseProductDTO> responseProductDTOList;
 
+	
 	@PostMapping("/insert-products-request")
 	public ResponseEntity<List<ResponseProductDTO>> create(@RequestBody RequestListProductDTO products) throws IOException {
 			List<Product> collect = products

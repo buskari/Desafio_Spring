@@ -39,102 +39,71 @@ public class ProductService {
 		fileUtils.writeObjectToFile(list, JSON_PRODUCTS_PATH);
 	}
 
-	public List<Product> findProducts(
-			String category,
-			String name,
-			String brand,
-			BigDecimal price,
-			Integer quantity,
-			String freeShipping,
-			String prestige,
-			Integer order
-	) throws IOException {
+	public List<Product> findProducts(String category, String name, String brand, BigDecimal price, Integer quantity,
+			String freeShipping, String prestige, Integer order) throws IOException {
 		List<Product> fileProducts = fileService.findAll(JSON_PRODUCTS_PATH);
-		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<>() {});
-		
-		if(category != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getCategory().equalsIgnoreCase(category))
+		List<Product> pojos = mapper.convertValue(fileProducts, new TypeReference<>() {
+		});
+
+		if (category != null) {
+			pojos = pojos.stream().filter(product -> product.getCategory().equalsIgnoreCase(category))
 					.collect(Collectors.toList());
 		}
 
-		if(name != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getName().equalsIgnoreCase(name))
+		if (name != null) {
+			pojos = pojos.stream().filter(product -> product.getName().equalsIgnoreCase(name))
 					.collect(Collectors.toList());
 		}
 
-		if(brand != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getBrand().equalsIgnoreCase(brand))
+		if (brand != null) {
+			pojos = pojos.stream().filter(product -> product.getBrand().equalsIgnoreCase(brand))
 					.collect(Collectors.toList());
 		}
 
-		if(price != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getPrice().equals(price))
+		if (price != null) {
+			pojos = pojos.stream().filter(product -> product.getPrice().equals(price)).collect(Collectors.toList());
+		}
+
+		if (quantity != null) {
+			pojos = pojos.stream().filter(product -> product.getQuantity().equals(quantity))
 					.collect(Collectors.toList());
 		}
 
-		if(quantity != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getQuantity().equals(quantity))
-					.collect(Collectors.toList());
-		}
-
-		if(freeShipping != null ) {
+		if (freeShipping != null) {
 			boolean booleanFreeShipping = false;
 			if (freeShipping.equalsIgnoreCase("sim")) {
 				booleanFreeShipping = true;
 			}
 			boolean finalBooleanFreeShipping = booleanFreeShipping;
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getFreeShipping().equals(finalBooleanFreeShipping))
+			pojos = pojos.stream().filter(product -> product.getFreeShipping().equals(finalBooleanFreeShipping))
 					.collect(Collectors.toList());
 		}
 
-		if(prestige != null ) {
-			pojos = pojos
-					.stream()
-					.filter(product -> product.getPrestige().equals(prestige))
+		if (prestige != null) {
+			pojos = pojos.stream().filter(product -> product.getPrestige().equals(prestige))
 					.collect(Collectors.toList());
 		}
 
-		if(order != null) {
+		if (order != null) {
 			switch (order) {
 			case 0:
-				pojos = pojos
-						.stream()
-						.sorted(Comparator.comparing(Product::getName))
-						.collect(Collectors.toList());
+				pojos = pojos.stream().sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
 				break;
 			case 1:
-				pojos = pojos
-						.stream()
-						.sorted((p1, p2) -> p2.getName().compareTo(p1.getName()))
+				pojos = pojos.stream().sorted((p1, p2) -> p2.getName().compareTo(p1.getName()))
 						.collect(Collectors.toList());
 				break;
 			case 2:
-				pojos = pojos
-						.stream()
-						.sorted(Comparator.comparing(Product::getPrice))
-						.collect(Collectors.toList());
+				pojos = pojos.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
 				break;
 			case 3:
-				pojos = pojos
-						.stream()
-						.sorted((v1, v2) -> v2.getPrice().compareTo(v1.getPrice()))
+				pojos = pojos.stream().sorted((v1, v2) -> v2.getPrice().compareTo(v1.getPrice()))
 						.collect(Collectors.toList());
 				break;
 
 			default:
-				throw new InvalidParameterException("Valores válidos para order: 0 - Alfabético crescente, 1 - Alfabético decrescente, 2 - Maior a menor preço ou 3 - Menor a maior preço");
+				throw new InvalidParameterException(
+						"Valores válidos para order: 0 - Alfabético crescente, 1 - Alfabético decrescente, 2 - Maior a menor preço ou 3 - Menor a maior preço");
 			}
 		}
 		return pojos;
@@ -144,10 +113,9 @@ public class ProductService {
 	public List<Product> list() throws IOException {
 		FileUtils<Product> fileUtils = new FileUtils<>();
 		List<Product> list = fileUtils.readObjectsFromFile(JSON_PRODUCTS_PATH);
-		List<Product> pojos = mapper.convertValue(list, new TypeReference<List<Product>>() {
-		});
 
-		return pojos;
+		return mapper.convertValue(list, new TypeReference<List<Product>>() {
+		});
 	}
 
 	public ProductPurchaseResponse compras(ProductPurchaseRequest products) throws Exception {
@@ -159,7 +127,7 @@ public class ProductService {
 
 		for (ProductPurchasedRequestDTO productCompra : products.getProdutcsPurchesed()) {
 			Optional<Product> opt = findById(productCompra.getProductId());
-			if (opt.isEmpty()){
+			if (opt.isEmpty()) {
 				throw new OrderException("Produto inexistente");
 			}
 			for (Product productEstoque : estoque) {
@@ -168,7 +136,8 @@ public class ProductService {
 						throw new OrderException("Estoque insuficiente");
 					}
 					saida.add(productEstoque);
-					total = total.add(productEstoque.getPrice().multiply(BigDecimal.valueOf(productCompra.getQuantity())));
+					total = total
+							.add(productEstoque.getPrice().multiply(BigDecimal.valueOf(productCompra.getQuantity())));
 				}
 			}
 		}
@@ -178,7 +147,7 @@ public class ProductService {
 		return productPurchaseResponse;
 	}
 
-	public Optional<Product> findById(Long id) throws IOException{
+	public Optional<Product> findById(Long id) throws IOException {
 		return list().stream().filter(a -> a.getProductId().equals(id)).findFirst();
 	}
 }

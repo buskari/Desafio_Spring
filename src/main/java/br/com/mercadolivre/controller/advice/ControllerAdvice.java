@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.mercadolivre.service.ValidatorException;
+
 @RestControllerAdvice
 public class ControllerAdvice {
 	
@@ -25,6 +27,21 @@ public class ControllerAdvice {
 		
 		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
 	}
-
+	
+	@ExceptionHandler(ValidatorException.class)
+	public ResponseEntity<ErrorMessage> validatorExceptionHandler(Exception e) {
+		
+		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getLocalizedMessage());
+		
+		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(OrderException.class)
+	public ResponseEntity<ErrorMessage> OrderException(Exception e) {
+		
+		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getLocalizedMessage());
+		
+		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+	}
 
 }
