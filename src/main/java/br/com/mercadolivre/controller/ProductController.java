@@ -2,12 +2,15 @@ package br.com.mercadolivre.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.mercadolivre.dto.ResponseProductDTO;
 import br.com.mercadolivre.model.ProductPurchaseRequest;
 import br.com.mercadolivre.model.ProductPurchaseResponse;
+import br.com.mercadolivre.service.ProductValidatePrice;
+import br.com.mercadolivre.service.ProductValidateQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +41,10 @@ public class ProductController {
 					.map(RequestProductDTO::dtoToProduct)
 					.collect(Collectors.toList());
 
-			service.create(collect);
+			service.create(collect, Arrays.asList(
+					new ProductValidatePrice(collect),
+					new ProductValidateQuantity(collect)
+			));
 			responseProductDTOList = ResponseProductDTO.convertToDTO(collect);
 			return new ResponseEntity<>(responseProductDTOList, HttpStatus.CREATED);
 		} catch (Exception e) {
