@@ -15,7 +15,7 @@ public class ProductValidatePrice implements Validator{
     @Override
     public void valida() throws ValidatorException {
         for (Product product : products) {
-            if (product.getPrice().compareTo(BigDecimal.ZERO) == 0)
+            if (product.getPrice().compareTo(BigDecimal.ZERO) <= 0 )
                 throw new ValidatorException("O valor minimo para o produto é 0");
         }
     }
