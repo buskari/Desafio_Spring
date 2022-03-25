@@ -12,6 +12,12 @@ public class FileUtils<T> {
 
 	ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * Leitura de um arquivo json
+	 * @param path caminho do arquivo que será lido uma lista de objetos
+	 * @return uma lista de objetos
+	 * @throws IOException exceção no caso de não conseguir ler a lista json
+	 */
 	public List<T> readObjectsFromFile(String path) throws IOException {
 		TypeReference<List<T>> typeReference = new TypeReference<List<T>>() {
 		};
@@ -26,6 +32,11 @@ public class FileUtils<T> {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Escreve um arquivo json
+	 * @param list lista de objetos genéricos
+	 * @param path caminho que o arquivo será salvo
+	 */
 	public void writeObjectToFile(List<T> list, String path) {
 		try {
 			mapper.writeValue(new File(path), list);
@@ -33,5 +44,4 @@ public class FileUtils<T> {
 			ex.printStackTrace();
 		}
 	}
-
 }

@@ -11,11 +11,13 @@ public class ProductNotNullValidation implements Validator {
 		this.products = products;
 	}
 
+	/**
+	 * Valida se nenhum campo do produto é igual a nulo
+	 * @throws ValidatorException exceção no caso de algum campo do produto ser nulo
+	 */
 	@Override
 	public void valida() throws ValidatorException {
 		for (Product product : products) {
-			
-			
 			if(product.getBrand() == null 
 					|| product.getCategory() == null 
 					|| product.getFreeShipping()  == null 

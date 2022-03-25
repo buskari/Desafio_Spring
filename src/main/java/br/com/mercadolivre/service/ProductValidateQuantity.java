@@ -13,6 +13,10 @@ public class ProductValidateQuantity implements Validator {
         this.products = products;
     }
 
+    /**
+     * Valida se a quantidade do produto é menor ou igual a zero
+     * @throws ValidatorException exceção no caso da quantidade do produto ser menor ou igual a zero
+     */
     @Override
     public void valida() throws ValidatorException {
         for (Product product : products) {
