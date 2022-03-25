@@ -18,6 +18,7 @@ API elaborada para monitorar e cadastrar produtos e clientes.
 **Cadastrar Produto:**
 
 O cadastro do produto é recebido via JSON, convertido para objeto JAVA e então gravado em um arquivo products.json no diretório "./products.json".
+
 **Endpoint**
 /api/v1/insert-products-request
 
